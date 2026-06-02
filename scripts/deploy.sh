@@ -78,3 +78,34 @@ else
     --network-security-group $NSG_NAME \
     --public-ip-address $PUBLIC_IP_NAME
 fi
+# ── Virtual Machine ───────────────────────────────────────────
+echo ""
+echo "Creating virtual machine..."
+if az vm show --resource-group $RESOURCE_GROUP --name $VM_NAME &>/dev/null; then
+  echo "  Already exists — skipping"
+else
+  az vm create \
+    --resource-group $RESOURCE_GROUP \
+    --name $VM_NAME \
+    --nics $NIC_NAME \
+    --image $IMAGE \
+    --size $VM_SIZE \
+    --admin-username $ADMIN_USER \
+    --generate-ssh-keys
+fi
+
+# ── Output ────────────────────────────────────────────────────
+echo ""
+echo "Fetching public IP address..."
+PUBLIC_IP=$(az network public-ip show \
+  --resource-group $RESOURCE_GROUP \
+  --name $PUBLIC_IP_NAME \
+  --query ipAddress \
+  --output tsv)
+
+echo ""
+echo "================================"
+echo "  Deployment complete!"
+echo "  Connect with:"
+echo "  ssh $ADMIN_USER@$PUBLIC_IP"
+echo "================================"
