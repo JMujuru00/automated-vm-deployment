@@ -64,3 +64,17 @@ else
     --sku Basic \
     --allocation-method Dynamic
 fi
+# ── Network Interface Card ────────────────────────────────────
+echo ""
+echo "Creating network interface card..."
+if az network nic show --resource-group $RESOURCE_GROUP --name $NIC_NAME &>/dev/null; then
+  echo "  Already exists — skipping"
+else
+  az network nic create \
+    --resource-group $RESOURCE_GROUP \
+    --name $NIC_NAME \
+    --vnet-name $VNET_NAME \
+    --subnet $SUBNET_NAME \
+    --network-security-group $NSG_NAME \
+    --public-ip-address $PUBLIC_IP_NAME
+fi
