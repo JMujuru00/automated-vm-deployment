@@ -52,3 +52,15 @@ else
     --destination-port-range 22 \
     --access Allow
 fi
+# ── Public IP ─────────────────────────────────────────────────
+echo ""
+echo "Creating public IP address..."
+if az network public-ip show --resource-group $RESOURCE_GROUP --name $PUBLIC_IP_NAME &>/dev/null; then
+  echo "  Already exists — skipping"
+else
+  az network public-ip create \
+    --resource-group $RESOURCE_GROUP \
+    --name $PUBLIC_IP_NAME \
+    --sku Basic \
+    --allocation-method Dynamic
+fi
