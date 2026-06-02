@@ -61,8 +61,8 @@ else
   az network public-ip create \
     --resource-group $RESOURCE_GROUP \
     --name $PUBLIC_IP_NAME \
-    --sku Basic \
-    --allocation-method Dynamic
+    --sku standard \
+    --allocation-method static
 fi
 # ── Network Interface Card ────────────────────────────────────
 echo ""
