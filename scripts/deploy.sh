@@ -33,3 +33,22 @@ else
     --subnet-name $SUBNET_NAME \
     --subnet-prefix 10.0.1.0/24
 fi
+# ── Network Security Group ────────────────────────────────────
+echo ""
+echo "Creating network security group..."
+if az network nsg show --resource-group $RESOURCE_GROUP --name $NSG_NAME &>/dev/null; then
+  echo "  Already exists — skipping"
+else
+  az network nsg create \
+    --resource-group $RESOURCE_GROUP \
+    --name $NSG_NAME
+
+  az network nsg rule create \
+    --resource-group $RESOURCE_GROUP \
+    --nsg-name $NSG_NAME \
+    --name AllowSSH \
+    --priority 1000 \
+    --protocol Tcp \
+    --destination-port-range 22 \
+    --access Allow
+fi
