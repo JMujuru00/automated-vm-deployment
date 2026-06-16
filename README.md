@@ -65,3 +65,4 @@ Each resource is created explicitly in the correct dependency order:
 - Troubleshooting real Azure errors including SKU availability restrictions
   across regions and race conditions in resource provisioning
 - Azure CLI command structure and how to query specific fields from JSON output
+- How to query specific Azure CLI variables 
